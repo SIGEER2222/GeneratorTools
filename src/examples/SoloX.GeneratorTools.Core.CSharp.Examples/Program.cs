@@ -60,12 +60,15 @@ namespace SoloX.GeneratorTools.Core.CSharp.Examples
         private void Run()
         {
             // Set the project folder/file we want to work on.
-            var prjFolder = "../../../../SoloX.GeneratorTools.Core.CSharp.Examples.Sample";
+            var baseDirectory = AppContext.BaseDirectory;
+            for (var i = 0; i < 5; i++)
+            {
+                baseDirectory = Directory.GetParent(baseDirectory).FullName;
+            }
+            var prjFolder = Path.Combine(baseDirectory, "SoloX.GeneratorTools.Core.CSharp.Examples.Sample");
             var prjFile = Path.Combine(prjFolder, "SoloX.GeneratorTools.Core.CSharp.Examples.Sample.csproj");
-
             // Get the entity generator example and generate the entity implementations in the given C# project.
             this.Service.GetService<EntityGeneratorExample>().Generate(prjFile);
-
             // Get the model generator example and generate the model implementations in the given C# project.
             this.Service.GetService<ModelGeneratorExample>().Generate(prjFile);
         }
